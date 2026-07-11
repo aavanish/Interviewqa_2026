@@ -1,0 +1,74 @@
+1. How do you handle a production alert?
+I first confirm the alert is real and understand the business impact. Then I check logs, metrics, recent changes, and dependencies to identify whether the issue is application, infrastructure, database, or external-service related. I keep stakeholders updated while I work on containment and restoration.
+
+2. How do you prioritize multiple incidents at the same time?
+I prioritize by business impact, severity, customer visibility, and whether there is a workaround. A service-wide outage or revenue-impacting issue takes priority over a smaller isolated problem. I also make sure each incident has ownership, so nothing is lost while I focus on the most critical one.
+
+3. What do you do during a P1 incident?
+I act quickly, stay calm, and follow the incident process. My first goal is to restore service, even if the immediate fix is temporary. After that, I work on root cause analysis, documentation, and prevention so the same issue does not recur.
+
+4. How do you decide the severity of an incident?
+I look at how many users are affected, whether the core business function is down, whether there is data loss risk, and whether the issue is time-sensitive. If the issue affects a critical path or many users, I treat it as high severity. I also consider whether the problem is actively getting worse.
+
+5. How do you identify whether an issue is application, infrastructure, or database related?
+I start by checking recent alerts, application logs, server health, and database connectivity. If the app is failing but servers are healthy, I look at application code, config, or downstream dependencies. If SQL is slow or connections are failing, I move toward the database layer. If CPU, memory, disk, or network is abnormal, I investigate infrastructure first.
+
+6. What logs and metrics do you check first?
+I usually check error logs, application health logs, system logs, CPU, memory, disk, network, response time, and any spike in error rates. If the system uses monitoring tools, I also check dashboards for latency, throughput, saturation, and recent alert history. The goal is to quickly see what changed and where the failure started.
+
+7. How do you troubleshoot intermittent failures?
+I look for patterns in time, load, dependencies, and repeated error signatures. Intermittent issues are often caused by resource pressure, timeout mismatches, race conditions, or flaky downstream services. I compare successful and failed cases to isolate what differs.
+
+8. How would you investigate a sudden CPU spike?
+I would check which process is consuming CPU, whether there was a deployment or traffic spike, and whether any batch job or loop is running abnormally. On Linux, I’d inspect process details, top consumers, and system logs. If needed, I’d correlate the spike with application logs and recent changes.
+
+9. How do you handle a failed job schedule or batch process?
+I first confirm whether the job failed due to input, dependency, timeout, permission, or environment issues. Then I check logs, retries, and whether the failure is isolated or recurring. If the failure blocks business processing, I escalate quickly and communicate the impact clearly.
+
+10. What is your approach to SQL data fixes in production?
+I validate the issue carefully before making any change. I check the affected rows, confirm the correct target data, take backup or snapshot if needed, and use the smallest safe change possible. After the fix, I verify the result and make sure downstream processes are still healthy.
+
+11. How do you optimize a slow SQL query?
+I check the execution plan, indexes, joins, filters, and whether the query is scanning too much data. I also look for unnecessary columns, subqueries, or functions that block index usage. If needed, I simplify the query or suggest schema or index improvements.
+
+12. What is the difference between monitoring, logging, and observability?
+Monitoring tells you when something is wrong. Logging gives detailed event history and error context. Observability is the ability to understand the system’s internal state from metrics, logs, and traces so you can investigate unknown issues more effectively.
+
+13. How do you decide if an alert is actionable?
+I ask whether the alert reflects a real customer or system impact, whether it needs immediate action, and whether it is consistent with known thresholds. If the alert is noisy or not tied to meaningful risk, I would tune it. Alerts should help response, not create unnecessary distraction.
+
+14. What monitoring tools have you used?
+I have worked with monitoring and logging tools such as Prometheus, Grafana, Splunk, and cloud-native dashboards. I use them to watch health, trace failures, and correlate alerts with deployments or traffic changes. I focus on what the metrics are telling me about actual service health.
+
+15. Walk me through a major incident you handled.
+I would explain the situation, the impact, the actions I took, and the result. I would mention how I identified the root cause, what I did to restore service, how I communicated with stakeholders, and what preventive action followed. The key is to show calm execution and clear ownership.
+
+16. How do you perform root cause analysis?
+I start by collecting facts: logs, metrics, alerts, timeline, and recent changes. Then I identify the point where the failure began and trace backward to the triggering event. I separate symptoms from actual cause and document both immediate fix and long-term prevention.
+
+17. How do you write a postmortem?
+I keep it factual and blame-free. I include the timeline, customer impact, root cause, detection method, resolution, and corrective actions. I also make sure the follow-up actions have owners and deadlines.
+
+18. How do you prevent repeat incidents?
+I focus on permanent fixes, not just temporary recovery. That may mean improving monitoring, adding automation, hardening a process, fixing a code defect, or changing a runbook. I also make sure the team learns from the incident and the knowledge base is updated.
+
+19. How do you support a new release?
+I review the release plan, check dependencies, confirm monitoring readiness, and understand rollback steps. During the release, I watch health metrics and user impact closely. Afterward, I verify that the application and supporting jobs are functioning normally.
+
+20. How do you handle rollback after a failed deployment?
+I first confirm that rollback is the safest and fastest way to restore service. Then I follow the approved rollback procedure and validate that the system is stable after the rollback. I also capture what failed so the same issue does not happen again.
+
+21. How do you communicate with business users during incidents?
+I keep the message simple, accurate, and calm. I explain what is affected, what is being done, what the current risk is, and when the next update will come. I avoid speculation and only share confirmed information.
+
+22. How do you manage stress in a 24x7 support environment?
+I stay process-driven and prioritize clearly. During pressure, I focus on the next best action rather than trying to solve everything at once. Good notes, clear escalation, and steady communication help reduce stress and prevent mistakes.
+
+23. How do you work with development and third-line teams?
+I provide complete and structured information: symptoms, logs, timestamps, impact, and what I already checked. That helps the next team move faster. I also stay engaged until the issue is resolved, especially if the incident still affects production.
+
+24. How do you use Python or scripting in support work?
+I use scripting to automate repetitive tasks, parse logs, collect health checks, or validate data. Even small scripts can reduce manual effort and improve consistency during incidents. I prefer simple, reliable automation that saves time and reduces errors.
+
+25. Why do you want this role?
+I’m interested in work that combines technical troubleshooting, incident ownership, and business impact. This role fits someone who can stay calm under pressure, solve problems systematically, and communicate clearly with both technical and non-technical teams. I also like the fact that it values proactive improvement, not just break-fix support.
