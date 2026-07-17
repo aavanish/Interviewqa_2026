@@ -1,0 +1,11 @@
+I appeared on an interview for the role of devops engineer and the role demands proficiency in Networking and securities. 
+Interview Questions - Bellurbis
+  1. Brief me tools and technologies you are working and how do you fit yourself in the role.
+  2. which cloud providers you used?
+  3. In AWS, you used services like EC2, S3 etc. So, what is public subnet and private subnet?
+  4. What is the difference between NACL (Network access contorl list) and security groups?
+  5. What is the bucket policies in S3? why do we use bucket policies if we have IAM policies?
+  6. Whats the difference between application load balancer and network load balancer?
+  7. Real life scenario where you could use network load balancer specifically.
+      FEEDBACKS
+  * need to work in -- VPC's from scratch.
