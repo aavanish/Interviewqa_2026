@@ -86,6 +86,16 @@ You configure two DNS records:
 ## CI/CD
 
 * Explain the stages of a CI/CD pipeline.
+
+Our infrastructure sits in a VPC with public and private subnets across multiple AZs. The EKS worker nodes live in private subnets for security, and the only internet-facing components are the Load Balancer and NAT Gateway, both in public subnets.
+
+When a developer pushes code to GitHub, a webhook triggers our Jenkins CI job. It pulls the code, runs an OWASP dependency check, then a SonarQube quality gate — if either fails, the pipeline stops there so we're not wasting time building something already broken. Once that passes, Trivy scans the filesystem, then Jenkins builds the Docker image and pushes it to ECR, which also runs its own image-level scan as a second layer of defense.
+
+That success triggers our CD pipeline, which updates the image tag in our GitOps repo — a separate repo that's the single source of truth for what should be running in the cluster. Argo CD is continuously watching that repo, and when it sees the change, it syncs the cluster to match — that's the GitOps model, so nobody runs kubectl apply manually.
+
+When the new pods come up in the private subnet, they pull the image from ECR through the NAT Gateway — outbound only. Once running, user traffic comes in through the Load Balancer in the public subnet and is routed to the pods — inbound only, and nothing else can reach the nodes directly.
+
+Once deployed, Prometheus and Grafana monitor the cluster, and we get email alerts on pipeline failures or deploy status, so the whole loop — code to production to visibility — is automated end to end
 * How do you implement blue-green and canary deployments?
 * How do you handle rollback if a deployment fails?
 * How would you deploy the same application to multiple environments?
