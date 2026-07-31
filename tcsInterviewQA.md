@@ -2,12 +2,86 @@
 
 * What is the difference between an Application Load Balancer (ALB) and a Network Load Balancer (NLB)?
 * Explain how Auto Scaling works in AWS.
+  
 * What are Security Groups and Network ACLs? How do they differ?
+
+| Security Groups (Stateful) | NACL (Stateless) |
+|---------------------|---------------------|
+| A Security Group acts as a virtual firewall for your EC2 instances and other AWS resources like RDS, Lambda, and ELB. | A Network ACL (NACL) acts as a firewall for an entire subnet.|
+| **Level**: Instance Level | **Level**: Subnet Level | 
+| It is attached directly to a specific resource. | It controls traffic entering and leaving the subnet. |
+| **Behavior**: Stateful | **Behavior**: Stateless|
+| If a request is allowed to go out, the response traffic is automatically allowed back. | NACLs do not remember connections. |
+| You do not need to create separate inbound or outbound rules for return traffic. | If inbound traffic is allowed, outbound response traffic must also be explicitly allowed |
+| **Rules**: Allow Only | **Rules**: Allow and Deny |
+| Security Groups support only allow rules. Any traffic not explicitly allowed is automatically denied. | Unlike Security Groups, NACLs can create both allow and deny rules. |
+| **Usage**: Primary Defense | **Usage**: Secondary Defense |
+| Used to tightly control access to individual instances and services. | Commonly used for broad traffic control, such as blocking suspicious IP addresses or creating secure subnet boundaries. |
+| **Example**: If you allow outbound internet access from an EC2 instance to download updates, the returning traffic is automatically permitted without adding extra inbound rules. | **Example**: If you allow inbound HTTP traffic on port 80, you must also allow outbound response traffic, otherwise, the communication will fail. |
+
 * How do you secure an S3 bucket?
+
+| Security Area | Recommended Practice |
+| --- | --- |
+| **Access Control** | Disable ACLs, use IAM & bucket policies (giving access) |
+| **Encryption** | SSE-S3 (managed keys) or SSE-KMS (customer-managed keys). |
+| **Network Security** | Restrict via VPC endpoints, enforce HTTPS |
+| **Monitoring** | CloudTrail, CloudWatch, Macie, AWS Config |
+| **Data Protection** | Versioning, replication, lifecycle rules |
+
 * What is the difference between NAT Gateway and Internet Gateway?
+
+| Feature	| Internet Gateway |	NAT Gateway |
+|---------------------|---------------------|---------------------|
+| Traffic Direction |	Inbound + Outbound	| Outbound only |
+| Subnet Placement |	Public subnet |	Public subnet (serves private subnets) |
+| Use Case	| Public-facing apps |	Private instances needing internet access |
+| Security	 | Can expose resources |	Keeps private resources hidden |
+  
 * How does Route 53 perform failover routing?
+```
+1. Health Checks   
+    Route 53 uses health checks to monitor endpoints such as web servers, load balancers, or applications.
+    If the health check fails (e.g., server down, timeout, or incorrect response), Route 53 marks the resource as unhealthy.
+
+3. Primary and Secondary Records
+You configure two DNS records:
+  Primary record → Points to the main resource (e.g., EC2 instance, ALB, S3 static site).
+  Secondary record → Points to a backup resource.
+
+3. Active-Passive vs Active-Active
+    Active-Passive Failover:
+      Primary handles all traffic.
+      Secondary only receives traffic when primary fails.
+    Active-Active Failover:
+      Both primary and secondary handle traffic simultaneously.
+      If one fails, the other continues serving requests seamlessly
+
+4. Supported Resources
+   Failover routing can be applied to:
+      Amazon S3 buckets (static websites)
+      Elastic Load Balancers (ALB/NLB)
+      EC2 instances
+      CloudFront distributions
+      Custom endpoints (via IP or domain name)
+```
 * Explain the EBS volume types and their use cases.
+
+| Volume Type | Storage Medium | Performance | Cost | Typical Use Case |
+| --- | --- | --- | --- | --- |
+| **gp3** | SSD | Balanced, scalable IOPS | Moderate | Boot volumes, dev/test, general apps |
+| **io1/io2** | SSD | High IOPS, low latency | High | Databases, critical workloads |
+| **st1** | HDD | High throughput | Low | Big data, logs, streaming |
+| **sc1** | HDD | Lowest throughput | Lowest | Backups, cold storage |
+
 * What is the purpose of IAM Roles compared to IAM Users?
+
+| Feature | IAM User | IAM Role |
+| --- | --- | --- |
+| **Identity Type** | Permanent | Temporary |
+| **Credentials** | Long-term (password, access keys) | Short-term (STS tokens) |
+| **Best For** | Human users, service accounts | AWS services, cross-account access, temporary permissions |
+| **Security** | Higher risk if keys leaked | Safer — credentials expire automatically |
 
 ## CI/CD
 
