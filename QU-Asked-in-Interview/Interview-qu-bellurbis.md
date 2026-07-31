@@ -23,6 +23,8 @@ Interview Questions - Bellurbis
 | Used to tightly control access to individual instances and services. | Commonly used for broad traffic control, such as blocking suspicious IP addresses or creating secure subnet boundaries. |
 | **Example**: If you allow outbound internet access from an EC2 instance to download updates, the returning traffic is automatically permitted without adding extra inbound rules. | **Example**: If you allow inbound HTTP traffic on port 80, you must also allow outbound response traffic, otherwise, the communication will fail. |
 
+https://www.geeksforgeeks.org/computer-networks/difference-between-security-group-and-network-acl-in-aws/
+
 5. What is the bucket policies in S3? why do we use bucket policies if we have IAM policies?
 
 6. Whats the difference between application load balancer and network load balancer?
